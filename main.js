@@ -15,7 +15,9 @@ module.exports.loop = function () {
 	
 	_.forEach(Game.spawns, (spawn)=>{
 	    if(!!spawn.memory.growthStrategy){
-	        growthStrategyMapping[spawn.memory.growthStrategy].run(spawn);
+	        let selectedStrategy = growthStrategyMapping[spawn.memory.growthStrategy];
+	        if(!selectedStrategy){ console.log("Spawn "+spawn.name+" has null strategy."); return; }
+	        selectedStrategy.run(spawn);
 	    } else {
 	        //unassigned
 	    }
@@ -26,7 +28,9 @@ module.exports.loop = function () {
 	_.forEach(Game.creeps, (creep)=>{
 	   // console.log("Creep", creep.name, creep.memory.role);
 	    if(!!creep.memory.role){
-	        roleMapping[creep.memory.role].run(creep);
+	        let selectedRole = roleMapping[creep.memory.role];
+	        if(!selectedRole){ console.log("Creep "+creep.name+" has null role."); return; }
+	        selectedRole.run(creep);
 	    } else {
 	        //unassigned
 	    }
