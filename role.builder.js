@@ -14,10 +14,17 @@ var roleBuilder = {
 	    }
 
 	    if(creep.memory.building) {
-	        var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
-            if(targets.length) {
-                if(creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}});
+	        let flagName = creep.memory.associatedFlagName;
+	        
+            var targets = !!flagName
+                ? [Game.flags[flagName].pos.findClosestByRange(FIND_CONSTRUCTION_SITES)]
+                : creep.room.find(FIND_CONSTRUCTION_SITES);
+            
+            let preferredTarget = targets[0];
+            
+            if(!!preferredTarget) {
+                if(creep.build(preferredTarget) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(preferredTarget, {visualizePathStyle: {stroke: '#ffffff'}});
                 }
             }
 	    }
